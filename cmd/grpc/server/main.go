@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net"
 	"os"
 
@@ -12,21 +13,22 @@ import (
 )
 
 func main() {
-	// configure our core service
+	// configure our user service
 	repository := user.NewMockRepository()
 	userService := user.NewService(repository)
-	// configure our gRPC service controller
+	// configure our gRPC user service controller
 	userServiceController := controller.NewUserServiceController(*userService)
 	// start a gRPC server
 	server := grpc.NewServer()
 	mygrpc.RegisterUserServiceServer(server, userServiceController)
 
 	reflection.Register(server)
-	con, err := net.Listen("tcp", os.Getenv("GRPC_ADDR"))
+	con, err := net.Listen("tcp", ":"+os.Getenv("GRPC_PORT"))
 	if err != nil {
 		panic(err)
 	}
 
+	log.Printf("Server Started on Port : %v \n", os.Getenv("GRPC_PORT"))
 	err = server.Serve(con)
 	if err != nil {
 		panic(err)

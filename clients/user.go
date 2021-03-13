@@ -24,8 +24,8 @@ func NewGRPCService(connString string) (*grpcService, error) {
 	return &grpcService{grpcClient: mygrpc.NewUserServiceClient(conn)}, nil
 }
 
-func (s *grpcService) GetUsersByIDs(ids []int64) (result map[int64]*domain.User) {
-	result = map[int64]*domain.User{}
+func (s *grpcService) GetUsersByIDs(ids []int64) (result []domain.User) {
+	result = []domain.User{}
 	req := &mygrpc.GetUsersRequest{
 		Ids: ids,
 	}
@@ -37,7 +37,7 @@ func (s *grpcService) GetUsersByIDs(ids []int64) (result map[int64]*domain.User)
 	}
 	for _, grpcUser := range resp.GetUsers() {
 		u := unmarshalUser(grpcUser)
-		result[u.ID] = u
+		result = append(result, *u)
 	}
 	return
 }
@@ -54,12 +54,13 @@ func (s *grpcService) GetUserByID(id int64) (result *domain.User, err error) {
 	}
 	grpcUser := resp.GetUser()
 	if grpcUser.GetId() == id {
-		return unmarshalUser(grpcUser), nil
+		result = unmarshalUser(grpcUser)
 	}
-	return result, domain.NotFoundError
+	return
 }
 
 func unmarshalUser(grpcUser *mygrpc.User) (result *domain.User) {
+	result = &domain.User{}
 	result.ID = grpcUser.Id
 	result.FName = grpcUser.Fname
 	result.City = grpcUser.City
