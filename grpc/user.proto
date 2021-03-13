@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package grpc;
+
+message User {
+    int64 id = 1;
+    string fname = 2;
+    string city = 3;
+    string phone = 4;
+    float height = 5;
+    bool married = 6;
+}
+
+//UserService Definition
+service UserService {
+    rpc GetUser (GetUserRequest) returns (GetUserResponse) {}
+    rpc GetUsers (GetUsersRequest) returns (GetUsersResponse) {}
+}
+
+message Error {
+    string code = 1;
+    string message = 2;
+}
+
+message GetUserRequest {
+    int64 id = 1;
+}
+
+message GetUserResponse {
+    User user = 1;
+}
+
+message GetUsersRequest {
+  repeated int64 ids = 1; 
+}
+  
+message GetUsersResponse {
+  repeated User users = 1; 
+}
+
+
