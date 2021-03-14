@@ -17,7 +17,7 @@ $ ./client_app_test
 $ make test
 ```
 
-### Command to run test client 
+### Command to run test client:
 
 ```sh
 $ # change in scripts/client_app_test.sh:4
