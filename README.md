@@ -23,6 +23,7 @@ $ make test
 $ # change in scripts/client_app_test.sh:4
 $ # export USER_IDS='1,2,3,4,5,6,7,8,9,10'
 $ # for test with diffrent users
+$ # for test client you must have go installed 
 $ make testclient
 ```
 
@@ -31,4 +32,5 @@ $ make testclient
 ```sh
 make
 docker
+go 1.13.5
 ```
