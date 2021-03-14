@@ -18,7 +18,26 @@ func TestMockRepository_GetUserByID(t *testing.T) {
 		want    *domain.User
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "test 1",
+			m:    NewMockRepository(),
+			args: args{userID: 1},
+			want: &domain.User{
+				ID:      1,
+				FName:   "Steve",
+				Phone:   "1234567890",
+				Height:  5.8,
+				Married: true,
+			},
+			wantErr: false,
+		},
+		{
+			name:    "test 2",
+			m:       NewMockRepository(),
+			args:    args{userID: 10},
+			want:    nil,
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -45,7 +64,40 @@ func TestMockRepository_GetUsersByIDs(t *testing.T) {
 		args args
 		want []*domain.User
 	}{
-		// TODO: Add test cases.
+		{
+			name: "test 1",
+			m:    NewMockRepository(),
+			args: args{userIDs: []int64{1, 2, 3, 30}},
+			want: []*domain.User{
+				{
+					ID:      1,
+					FName:   "Steve",
+					Phone:   "1234567890",
+					Height:  5.8,
+					Married: true,
+				},
+				{
+					ID:      2,
+					FName:   "Sunil",
+					Phone:   "1231231231",
+					Height:  5.8,
+					Married: false,
+				},
+				{
+					ID:      3,
+					FName:   "Jhon",
+					Phone:   "2342342341",
+					Height:  5.3,
+					Married: false,
+				},
+			},
+		},
+		{
+			name: "test 2",
+			m:    NewMockRepository(),
+			args: args{userIDs: []int64{11, 12, 13}},
+			want: []*domain.User{},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
